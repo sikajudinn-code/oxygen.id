@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Generator teks panduan pembayaran Oxygen.id yang praktis untuk pelanggan.">
+  <meta name="theme-color" content="#f26522">
+  <title>Oxygen.id Payment Generator</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --orange: #f26522;
+      --orange-dark: #d94f10;
+      --green: #0f9f72;
+      --green-dark: #087c58;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #e5e7eb;
+      --soft: #f8fafc;
+      --focus: rgba(242, 101, 34, .18);
+      --radius: 16px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: linear-gradient(180deg, #fff7f2 0, var(--soft) 240px);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.45;
+    }
+
+    .page { width: min(100% - 24px, 1240px); margin: 0 auto; padding: max(16px, env(safe-area-inset-top)) 0 max(28px, env(safe-area-inset-bottom)); }
+    .ad-slot {
+      display: grid;
+      place-items: center;
+      min-height: 90px;
+      margin: 0 auto 16px;
+      overflow: hidden;
+      border: 1px dashed #d9dee7;
+      border-radius: 12px;
+      background: rgba(255,255,255,.72);
+      color: #98a2b3;
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .ad-slot--top { max-width: 728px; }
+    .ad-slot--bottom { min-height: 100px; margin-top: 20px; margin-bottom: 0; }
+    /* Tempatkan kode AdSense/iklan di dalam .ad-slot. Ukuran minimum dijaga agar CLS rendah. */
+    .content-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 760px) minmax(120px, 160px);
+      align-items: start;
+      justify-content: center;
+      gap: 18px;
+    }
+    .ad-slot--side {
+      position: sticky;
+      top: 16px;
+      min-height: 600px;
+      margin: 0;
+      border-radius: 10px;
+    }
+
+    .card {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(16, 24, 40, .06);
+    }
+    .card-header { padding: 22px 20px 16px; text-align: center; }
+    .credit {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fff1e9;
+      color: #a63f0e;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    h1 { margin: 0; color: var(--orange); font-size: clamp(21px, 5vw, 27px); line-height: 1.2; }
+    .subtitle { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+    .form { padding: 0 20px 22px; }
+    .form-group { margin: 0 0 16px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    label { display: block; margin-bottom: 6px; color: #344054; font-size: 13px; font-weight: 650; }
+    input, select {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid #cfd5df;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    input:focus, select:focus { outline: 0; border-color: var(--orange); box-shadow: 0 0 0 4px var(--focus); }
+    input[readonly] { background: #f2f4f7; color: var(--orange); font-weight: 750; }
+    select { cursor: pointer; min-height: 42px; padding: 8px 34px 8px 10px; white-space: nowrap; text-overflow: ellipsis; font-size: 12px; }
+    #paket { display: none; }
+    .package-picker { position: relative; }
+    .package-trigger { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 42px; padding: 8px 10px; border: 1px solid #cfd5df; border-radius: 10px; background: #fff; color: var(--ink); font-size: 12px; text-align: left; cursor: pointer; }
+    .package-trigger::after { content: '⌄'; margin-left: 8px; color: #667085; font-size: 16px; }
+    .package-picker.is-open .package-trigger { border-color: var(--orange); box-shadow: 0 0 0 4px var(--focus); }
+    .package-menu { position: absolute; top: calc(100% + 6px); right: 0; left: 0; z-index: 20; display: none; max-height: 250px; overflow: auto; padding: 5px; border: 1px solid #d9dee7; border-radius: 10px; background: #fff; box-shadow: 0 12px 28px rgba(16,24,40,.16); }
+    .package-picker.is-open .package-menu { display: block; }
+    .package-menu-group { padding: 7px 8px 4px; color: var(--orange-dark); font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+    .package-option { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; padding: 8px; border: 0; border-radius: 7px; background: transparent; color: #344054; font-size: 12px; text-align: left; cursor: pointer; }
+    .package-option:hover, .package-option.is-selected { background: #fff1e9; color: var(--orange-dark); }
+    .package-option-price { flex: 0 0 auto; color: #667085; font-size: 11px; }
+    option { font-size: 12px; }
+    .package-manager { margin: -4px 0 16px; padding: 12px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fbfcfe; }
+    .package-manager summary { cursor: pointer; color: #344054; font-size: 12px; font-weight: 700; }
+    .package-manager-grid { display: grid; grid-template-columns: 1.5fr 1fr auto; gap: 8px; margin-top: 10px; }
+    .package-manager-grid input { min-height: 38px; padding: 8px 10px; font-size: 12px; }
+    .package-manager-grid .btn-small { width: auto; min-height: 38px; margin: 0; padding: 8px 12px; font-size: 12px; }
+    .custom-list { display: grid; gap: 6px; margin-top: 10px; }
+    .custom-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 9px; border-radius: 8px; background: #fff; border: 1px solid #edf0f4; color: #475467; font-size: 11px; }
+    .custom-item button { border: 0; color: #b42318; background: transparent; cursor: pointer; font-size: 11px; }
+    .quick-box {
+      margin: 0 0 18px;
+      padding: 14px;
+      border: 1px solid #f9d7ad;
+      border-left: 4px solid #f59e0b;
+      border-radius: 12px;
+      background: #fffbeb;
+    }
+    .quick-box label { color: #a15c00; }
+    .hint { margin: 5px 0 0; color: var(--muted); font-size: 11px; }
+    .quick-box .hint { color: #b7791f; }
+    .btn {
+      width: 100%;
+      min-height: 46px;
+      margin-top: 2px;
+      padding: 11px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(15, 159, 114, .18);
+      transition: background-color .15s ease, transform .15s ease;
+    }
+    .btn:hover { background: var(--green-dark); }
+    .btn-secondary { margin-top: 8px; background: #f26522; box-shadow: 0 4px 10px rgba(242,101,34,.16); }
+    .btn-secondary:hover { background: #d94f10; }
+    .btn:active { transform: translateY(1px); }
+    .copy-note { text-align: center; color: var(--muted); }
+    .copy-note strong { color: var(--orange-dark); }
+    .output-box {
+      min-height: 300px;
+      margin-top: 18px;
+      padding: 15px;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+      border: 1px dashed #cfd5df;
+      border-radius: 10px;
+      background: #f8fafc;
+      color: #344054;
+      font-size: 13px;
+      line-height: 1.55;
+      cursor: text;
+      user-select: all;
+    }
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: max(16px, env(safe-area-inset-bottom));
+      left: 16px;
+      z-index: 10;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #172033;
+      color: #fff;
+      font-size: 13px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .toast.is-visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 560px) {
+      .page { width: min(100% - 16px, 760px); padding-top: max(8px, env(safe-area-inset-top)); padding-bottom: max(18px, env(safe-area-inset-bottom)); }
+      .ad-slot--top { min-height: 60px; margin-bottom: 10px; }
+      .content-layout { display: block; }
+      .ad-slot--side { min-height: 90px; margin: 12px 0; }
+      .card-header { padding: 18px 16px 14px; }
+      .form { padding: 0 16px 18px; }
+      .row { grid-template-columns: 1fr; gap: 0; }
+      .output-box { min-height: 340px; font-size: 12.5px; }
+      .package-manager-grid { grid-template-columns: 1fr 1fr; }
+      .package-manager-grid .btn-small { grid-column: 1 / -1; width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+
+    .app-tabs { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 20px 16px; padding:4px; border-radius:12px; background:#f2f4f7; }
+    .app-tab { min-height:38px; border:0; border-radius:9px; background:transparent; color:#667085; font:inherit; font-size:12px; font-weight:750; cursor:pointer; }
+    .app-tab.is-active { background:#fff; color:var(--orange-dark); box-shadow:0 2px 8px rgba(16,24,40,.08); }
+    .report-view { display:none; padding:0 20px 22px; }
+    .report-view.is-active { display:block; }
+    .report-intro { margin:0 0 14px; padding:12px; border:1px solid #f9d7ad; border-left:4px solid var(--orange); border-radius:12px; background:#fffaf7; color:#667085; font-size:12px; }
+    .report-field { margin-bottom:12px; }
+    .report-field textarea { width:100%; min-height:78px; resize:vertical; padding:10px 12px; border:1px solid #cfd5df; border-radius:10px; color:var(--ink); font:inherit; font-size:13px; }
+    .report-field textarea:focus { outline:0; border-color:var(--orange); box-shadow:0 0 0 4px var(--focus); }
+    .report-actions { display:flex; gap:8px; margin:8px 0 12px; }
+    .report-actions .btn { margin:0; }
+    .btn-outline { background:#fff; color:var(--orange-dark); border:1px solid #f5b18d; box-shadow:none; }
+    .btn-outline:hover { background:#fff1e9; }
+    .description-row { display:grid; grid-template-columns:180px 1fr; gap:8px; margin-bottom:8px; }
+    .description-row input { min-height:40px; font-size:12px; }
+    .description-row textarea { min-height:62px; }
+    .report-output { min-height:270px; margin-top:12px; }
+    .custom-report-manager { margin:12px 0; padding:12px; border:1px solid #e5e7eb; border-radius:12px; background:#fbfcfe; }
+    .custom-report-manager summary { cursor:pointer; color:#344054; font-size:12px; font-weight:700; }
+    .custom-report-manager textarea { min-height:120px; margin-top:8px; }
+    @media (max-width:560px) { .report-view { padding:0 16px 18px; } .app-tabs { margin-left:16px; margin-right:16px; } .description-row { grid-template-columns:1fr; gap:6px; } .report-actions { flex-direction:column; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="ad-slot ad-slot--top" aria-label="Slot iklan">Ruang iklan</div>
+
+    <div class="content-layout">
+      <section class="card" aria-labelledby="page-title">
+      <header class="card-header">
+        <span class="credit">Dibuat dengan ♥ oleh Irvan Sikajudin, MTI260413524</span>
+        <h1 id="page-title">Oxygen.id Payment Generator</h1>
+        <p class="subtitle">Isi data pelanggan, lalu salin panduan pembayaran.</p>
+      </header>
+
+      <nav class="app-tabs" aria-label="Menu aplikasi">
+        <button class="app-tab is-active" id="payment-tab" type="button">Pembayaran</button>
+        <button class="app-tab" id="report-tab" type="button">Report</button>
+      </nav>
+
+      <form class="form" id="generator-form" onsubmit="return false">
+        <div class="quick-box">
+          <label for="quick_input">⚡ Auto-Parse (tempel ID dan nama)</label>
+          <input type="text" id="quick_input" inputmode="text" autocomplete="off" placeholder="Contoh: 29702518 YODI RISMANA">
+          <p class="hint">Pisahkan ID dan nama dengan spasi atau tab. Form akan terisi otomatis.</p>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="id_pelanggan">ID Pelanggan</label>
+            <input type="text" id="id_pelanggan" inputmode="numeric" autocomplete="off" placeholder="Masukkan ID Pelanggan">
+          </div>
+          <div class="form-group">
+            <label for="nama_pelanggan">Nama Pelanggan</label>
+            <input type="text" id="nama_pelanggan" autocomplete="name" placeholder="Masukkan Nama Pelanggan">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="paket">Pilihan Paket</label>
+            <select id="paket">
+              <optgroup label="OXYLITE (Internet) - Bulanan">
+                <option value="Oxylite 30 Mbps (Perbulan)" data-harga="Rp 127.650">Oxylite 30 Mbps ➔ Rp 127.650</option>
+                <option value="Oxylite 75 Mbps (Perbulan)" data-harga="Rp 138.750">Oxylite 75 Mbps ➔ Rp 138.750</option>
+                <option value="Oxylite 100 Mbps (Perbulan)" data-harga="Rp 166.500">Oxylite 100 Mbps ➔ Rp 166.500</option>
+              </optgroup>
+              <optgroup label="STREAM (Internet) - Bulanan">
+                <option value="Stream 50 Mbps (Perbulan)" data-harga="Rp 199.000" selected>Stream 50 Mbps ➔ Rp 199.000</option>
+                <option value="Stream 100 Mbps (Perbulan)" data-harga="Rp 242.000">Stream 100 Mbps ➔ Rp 242.000</option>
+                <option value="Stream 150 Mbps (Perbulan)" data-harga="Rp 306.000">Stream 150 Mbps ➔ Rp 306.000</option>
+                <option value="Stream 200 Mbps (Perbulan)" data-harga="Rp 356.000">Stream 200 Mbps ➔ Rp 356.000</option>
+              </optgroup>
+              <optgroup label="STREAM (Internet) - Tahunan">
+                <option value="Stream 50 Mbps (Pertahun)" data-harga="Rp 1.990.000">Stream 50 Mbps ➔ Rp 1.990.000</option>
+                <option value="Stream 100 Mbps (Pertahun)" data-harga="Rp 2.420.000">Stream 100 Mbps ➔ Rp 2.420.000</option>
+                <option value="Stream 150 Mbps (Pertahun)" data-harga="Rp 3.060.000">Stream 150 Mbps ➔ Rp 3.060.000</option>
+                <option value="Stream 200 Mbps (Pertahun)" data-harga="Rp 3.560.000">Stream 200 Mbps ➔ Rp 3.560.000</option>
+              </optgroup>
+              <optgroup label="STREAM+ (Internet + TV) - Bulanan">
+                <option value="Stream+ 100 Mbps (Perbulan)" data-harga="Rp 299.000">Stream+ 100 Mbps ➔ Rp 299.000</option>
+                <option value="Stream+ 150 Mbps (Perbulan)" data-harga="Rp 359.000">Stream+ 150 Mbps ➔ Rp 359.000</option>
+                <option value="Stream+ 200 Mbps (Perbulan)" data-harga="Rp 409.000">Stream+ 200 Mbps ➔ Rp 409.000</option>
+              </optgroup>
+              <optgroup label="STREAM+ (Internet + TV) - Tahunan">
+                <option value="Stream+ 100 Mbps (Pertahun)" data-harga="Rp 2.990.000">Stream+ 100 Mbps ➔ Rp 2.990.000</option>
+                <option value="Stream+ 150 Mbps (Pertahun)" data-harga="Rp 3.590.000">Stream+ 150 Mbps ➔ Rp 3.590.000</option>
+                <option value="Stream+ 200 Mbps (Pertahun)" data-harga="Rp 4.090.000">Stream+ 200 Mbps ➔ Rp 4.090.000</option>
+              </optgroup>
+            </select>
+            <div class="package-picker" id="package-picker">
+              <button class="package-trigger" id="package-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">Pilih paket</button>
+              <div class="package-menu" id="package-menu" role="listbox"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="harga">Harga Paket</label>
+            <input type="text" id="harga" value="Rp 199.000" readonly aria-readonly="true">
+          </div>
+        </div>
+
+        <details class="package-manager">
+          <summary>＋ Kelola semua paket (tambah, edit, hapus)</summary>
+          <div class="package-manager-grid">
+            <input type="text" id="custom_package_name" placeholder="Nama paket / promo">
+            <input type="text" id="custom_package_price" inputmode="numeric" placeholder="Harga, contoh: 149000">
+            <button class="btn btn-small" id="add-package-button" type="button">Simpan Paket</button>
+          </div>
+          <p class="hint">Semua paket dapat diedit atau dihapus. Data tersimpan di perangkat ini.</p>
+          <div class="custom-list" id="custom-package-list"></div>
+        </details>
+
+        <button class="btn" id="copy-button" type="button">Salin Teks Hasil</button>
+        <button class="btn btn-secondary" id="share-pdf-button" type="button">Bagikan sebagai PDF</button>
+        <p class="hint copy-note"><strong>Tips:</strong> jika salin otomatis gagal, ketuk kotak hasil lalu pilih Salin.</p>
+        <div class="output-box" id="output_text" tabindex="0" role="textbox" aria-label="Hasil panduan pembayaran" aria-readonly="true"></div>
+      </form>
+
+      <section class="report-view" id="report-view" aria-labelledby="report-title">
+        <h2 id="report-title" style="margin:0 0 6px;color:var(--orange);font-size:20px">Report Pelanggan</h2>
+        <p class="report-intro">Pilih format report, isi data wajib, lalu tambahkan sampai tiga deskripsi sesuai kebutuhan. Placeholder yang didukung pada format custom: <b>{id_pelanggan}</b>, <b>{nama_pelanggan}</b>, <b>{no_hp_pelanggan}</b>, dan <b>{deskripsi}</b>.</p>
+        <div class="report-field"><label for="report-template">Format Report</label><select id="report-template"><option value="retention">Pengajuan Retention</option><option value="mt">Report MT</option></select></div>
+        <div class="report-field"><label for="report-id">ID Pelanggan <b style="color:#b42318">(wajib)</b></label><input id="report-id" type="text" required placeholder="Masukkan ID pelanggan"></div>
+        <div class="report-field"><label for="report-name">Nama Pelanggan <b style="color:#b42318">(wajib)</b></label><input id="report-name" type="text" required placeholder="Masukkan nama pelanggan"></div>
+        <div class="report-field"><label for="report-phone">No. HP Pelanggan <b style="color:#b42318">(wajib)</b></label><input id="report-phone" type="tel" required placeholder="Masukkan nomor HP aktif"></div>
+        <label>Deskripsi Report</label>
+        <div id="description-list"></div>
+        <button class="btn btn-outline" id="add-description-button" type="button">＋ Tambah Deskripsi</button>
+        <details class="custom-report-manager"><summary>＋ Tambah format report saya sendiri</summary><div class="report-field" style="margin-top:10px"><label for="custom-report-name">Nama format</label><input id="custom-report-name" type="text" placeholder="Contoh: Report Gangguan"></div><div class="report-field"><label for="custom-report-template">Isi format report</label><textarea id="custom-report-template" placeholder="Gunakan {id_pelanggan}, {nama_pelanggan}, {no_hp_pelanggan}, {deskripsi}"></textarea></div><button class="btn btn-outline" id="save-report-template" type="button">Simpan Format Report</button></details>
+        <button class="btn" id="copy-report-button" type="button">Salin Report</button>
+        <div class="output-box report-output" id="report-output" tabindex="0" role="textbox" aria-label="Hasil report" aria-readonly="true"></div>
+      </section>
+      </section>
+
+      <aside class="ad-slot ad-slot--side" aria-label="Slot iklan vertikal kanan">Iklan kanan</aside>
+    </div>
+
+    <div class="ad-slot ad-slot--bottom" aria-label="Slot iklan">Ruang iklan</div>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const $ = (id) => document.getElementById(id);
+      const quickInput = $('quick_input');
+      const idInput = $('id_pelanggan');
+      const nameInput = $('nama_pelanggan');
+      const packageInput = $('paket');
+      const priceInput = $('harga');
+      const output = $('output_text');
+      const toast = $('toast');
+      let toastTimer;
+
+      function updatePrice() {
+        const option = packageInput.options[packageInput.selectedIndex];
+        priceInput.value = option.dataset.harga || '';
+      }
+
+      const packageCatalogKey = 'oxygen_package_catalog_v2';
+      let editingPackageId = null;
+
+      const readPackages = () => {
+        try {
+          const stored = JSON.parse(localStorage.getItem(packageCatalogKey) || 'null');
+          if (Array.isArray(stored) && stored.length) return stored;
+        } catch (error) {}
+        return [...packageInput.querySelectorAll('option')].map((option, index) => ({
+          id: 'package-' + index,
+          name: option.value,
+          price: option.dataset.harga || 'Rp 0'
+        }));
+      };
+      const savePackages = (packages) => localStorage.setItem(packageCatalogKey, JSON.stringify(packages));
+      const formatPrice = (value) => 'Rp ' + Number(String(value).replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
+      const compactPackageName = (name) => name.replace(/\s*\(Perbulan\)/gi, ' / Bulanan').replace(/\s*\(Pertahun\)/gi, ' / Tahunan');
+      const packageCategory = (name) => {
+        const value = name.toUpperCase();
+        if (value.startsWith('OXYLITE')) return 'OXYLITE';
+        if (value.startsWith('STREAM+')) return 'STREAM+';
+        if (value.startsWith('STREAM')) return 'STREAM';
+        return 'CUSTOM';
+      };
+      const packageCategoryOrder = { OXYLITE: 1, STREAM: 2, 'STREAM+': 3, CUSTOM: 4 };
+      const sortPackages = (packages) => [...packages].sort((a, b) => {
+        const categoryDiff = (packageCategoryOrder[packageCategory(a.name)] || 9) - (packageCategoryOrder[packageCategory(b.name)] || 9);
+        if (categoryDiff) return categoryDiff;
+        const nameDiff = a.name.localeCompare(b.name, 'id', { sensitivity: 'base', numeric: true });
+        if (nameDiff) return nameDiff;
+        return Number(String(a.price).replace(/[^0-9]/g, '')) - Number(String(b.price).replace(/[^0-9]/g, ''));
+      });
+
+      function renderPackagePicker(packages) {
+        const menu = $('package-menu');
+        const selected = packageInput.options[packageInput.selectedIndex];
+        $('package-trigger').textContent = selected ? compactPackageName(selected.value) + ' • ' + selected.dataset.harga : 'Pilih paket';
+        menu.innerHTML = '<div class="package-menu-group">Paket tersedia</div>';
+        packages.forEach((item) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'package-option' + (selected && selected.dataset.packageId === item.id ? ' is-selected' : '');
+          button.dataset.packageId = item.id;
+          button.setAttribute('role', 'option');
+          button.innerHTML = '<span>' + compactPackageName(item.name) + '</span><span class="package-option-price">' + item.price + '</span>';
+          menu.appendChild(button);
+        });
+      }
+
+      function renderPackages(preferredId) {
+        const packages = sortPackages(readPackages());
+        if (!localStorage.getItem(packageCatalogKey)) savePackages(packages);
+        packageInput.innerHTML = '';
+        const group = document.createElement('optgroup');
+        group.label = 'PAKET TERSEDIA';
+        packages.forEach((item) => {
+          const option = document.createElement('option');
+          option.value = item.name;
+          option.dataset.harga = item.price;
+          option.dataset.packageId = item.id;
+          option.title = item.name + ' — ' + item.price;
+          option.textContent = compactPackageName(item.name) + ' • ' + item.price;
+          group.appendChild(option);
+        });
+        packageInput.appendChild(group);
+        if (preferredId) {
+          const selected = packageInput.querySelector('[data-package-id="' + preferredId + '"]');
+          if (selected) packageInput.value = selected.value;
+        }
+        renderPackageList(packages);
+        renderPackagePicker(packages);
+        updatePrice();
+        generateText();
+      }
+
+      function renderPackageList(packages) {
+        const list = $('custom-package-list');
+        list.innerHTML = '';
+        packages.forEach((item) => {
+          const row = document.createElement('div');
+          row.className = 'custom-item';
+          row.innerHTML = '<span>' + item.name + ' — ' + item.price + '</span><span><button type="button" data-edit-package="' + item.id + '">Edit</button><button type="button" data-delete-package="' + item.id + '">Hapus</button></span>';
+          list.appendChild(row);
+        });
+      }
+
+      function savePackage() {
+        const nameInput = $('custom_package_name');
+        const priceInput = $('custom_package_price');
+        const name = nameInput.value.trim();
+        const digits = priceInput.value.trim().replace(/[^0-9]/g, '');
+        if (!name || !digits || Number(digits) < 1) return showToast('Isi nama paket dan harga yang valid.');
+        const packages = readPackages();
+        const packageData = { id: editingPackageId || Date.now().toString(36), name, price: formatPrice(digits) };
+        const index = packages.findIndex((item) => item.id === editingPackageId);
+        if (index >= 0) packages[index] = packageData;
+        else packages.push(packageData);
+        savePackages(packages);
+        editingPackageId = null;
+        nameInput.value = '';
+        priceInput.value = '';
+        $('add-package-button').textContent = 'Simpan Paket';
+        renderPackages(packageData.id);
+        showToast(index >= 0 ? 'Paket berhasil diubah.' : 'Paket baru tersimpan.');
+      }
+
+      function editPackage(id) {
+        const item = readPackages().find((entry) => entry.id === id);
+        if (!item) return;
+        editingPackageId = id;
+        $('custom_package_name').value = item.name;
+        $('custom_package_price').value = item.price.replace(/[^0-9]/g, '');
+        $('add-package-button').textContent = 'Simpan Perubahan';
+        document.querySelector('.package-manager').open = true;
+        $('custom_package_name').focus();
+      }
+
+      function deletePackage(id) {
+        const packages = readPackages().filter((item) => item.id !== id);
+        if (!packages.length) return showToast('Minimal harus ada satu paket.');
+        savePackages(packages);
+        renderPackages(packages[0].id);
+        showToast('Paket berhasil dihapus.');
+      }
+
+      function generateText() {
+        const id = idInput.value.trim() || '*id_pelanggan*';
+        const name = nameInput.value.trim() || 'nama_pelanggan';
+        const packageName = packageInput.value;
+        const price = priceInput.value;
+        output.textContent = `_Panduan Pembayaran Berlangganan Oxygen.id: ${name}_\n\nNo.ID Pelanggan       : ${id}\nNama                  : ${name}\nPaket                 : ${packageName}\nHarga                 : ${price}\n\n*1. CARA BAYAR DI ALFAMART TERDEKAT :*\nBilang ke kasir ingin bayar internet Oxygen.id home via DOKU.\nMasukkan nomor ini : *88888711${id}*\n\n*2. CARA BAYAR DI INDOMARET TERDEKAT :*\nBilang ke kasir ingin bayar Internet Oxygen.id home via DOKU.\nMasukkan nomor ini : *88223711${id}*\n\n*3. KLIK LINK BAYAR MELALUI ATM / M-BANKING / QRIS / EWALLET :*\nhttps://payment.oxygen.id/customer/${id}\n\n________________________\n⚠️ *REMINDER :*\nSistem kami adalah prabayar (Pembayaran diawal untuk jadwal pemasangan) Oxygen Home hanya menerima pembayaran melalui channel resmi kami & tidak menerima pembayaran dalam bentuk TUNAI maupun TRANSFER ke rekening pribadi (Karyawan/Staff), diluar itu bukan tanggung jawab Oxygen Home.\n\nTerima kasih 🙏`;
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('is-visible');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2600);
+      }
+
+      async function copyText() {
+        const text = output.textContent;
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const area = document.createElement('textarea');
+            area.value = text;
+            area.style.position = 'fixed';
+            area.style.opacity = '0';
+            document.body.appendChild(area);
+            area.focus();
+            area.select();
+            if (!document.execCommand('copy')) throw new Error('copy failed');
+            area.remove();
+          }
+          showToast('Teks berhasil disalin ke clipboard.');
+        } catch (error) {
+          const range = document.createRange();
+          range.selectNodeContents(output);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          showToast('Teks sudah dipilih. Silakan pilih Salin.');
+        }
+      }
+
+      function shareAsPdf() {
+        const text = output.textContent;
+        if (window.AndroidPdfBridge && AndroidPdfBridge.sharePdf) { AndroidPdfBridge.sharePdf(text); return; }
+        window.print();
+        showToast('Gunakan pilihan Cetak / Simpan sebagai PDF dari browser.');
+      }
+
+      quickInput.addEventListener('input', () => {
+        const match = quickInput.value.trim().match(/^(\S+)\s+(.+)$/);
+        if (match) {
+          idInput.value = match[1];
+          nameInput.value = match[2].toUpperCase();
+          generateText();
+        }
+      });
+      [idInput, nameInput].forEach((input) => input.addEventListener('input', generateText));
+      packageInput.addEventListener('change', () => { updatePrice(); generateText(); });
+      $('package-trigger').addEventListener('click', () => {
+        const picker = $('package-picker');
+        const open = picker.classList.toggle('is-open');
+        $('package-trigger').setAttribute('aria-expanded', String(open));
+      });
+      $('package-menu').addEventListener('click', (event) => {
+        const option = event.target.closest('[data-package-id]');
+        if (!option) return;
+        const hiddenOption = packageInput.querySelector('[data-package-id="' + option.dataset.packageId + '"]');
+        if (hiddenOption) {
+          packageInput.value = hiddenOption.value;
+          updatePrice();
+          generateText();
+          renderPackagePicker(readPackages());
+        }
+        $('package-picker').classList.remove('is-open');
+        $('package-trigger').setAttribute('aria-expanded', 'false');
+      });
+      document.addEventListener('click', (event) => {
+        if (!event.target.closest('#package-picker')) {
+          $('package-picker').classList.remove('is-open');
+          $('package-trigger').setAttribute('aria-expanded', 'false');
+        }
+      });
+      $('copy-button').addEventListener('click', copyText);
+      $('share-pdf-button').addEventListener('click', shareAsPdf);
+      $('add-package-button').addEventListener('click', savePackage);
+      $('custom-package-list').addEventListener('click', (event) => {
+        const editButton = event.target.closest('[data-edit-package]');
+        const deleteButton = event.target.closest('[data-delete-package]');
+        if (editButton) editPackage(editButton.dataset.editPackage);
+        if (deleteButton) deletePackage(deleteButton.dataset.deletePackage);
+      });
+
+      renderPackages();
+      updatePrice();
+      generateText();
+
+      const paymentTab = $('payment-tab');
+      const reportTab = $('report-tab');
+      const paymentForm = $('generator-form');
+      const reportView = $('report-view');
+      const reportTemplate = $('report-template');
+      const reportId = $('report-id');
+      const reportName = $('report-name');
+      const reportPhone = $('report-phone');
+      const descriptionList = $('description-list');
+      const reportOutput = $('report-output');
+      const reportTemplatesKey = 'oxygen-report-templates-v1';
+      const reportDescriptions = [];
+      const builtinReports = {
+        retention: '**Berikut Format Pengajuan Retention* *\n\nMohon di bantu Retention :\n\nID customer : *{id_pelanggan}*\nNama customer : *{nama_pelanggan}*\nNo hp customer : *{no_hp_pelanggan}*\n\nCase : *{deskripsi}*\n\nMohon dibantu.',
+        mt: '*Dear rekan SL, sangat tolong dibantu jika pelanggan complaint ke sales bisa pakai draft ya rekan, agar memudahkan kami rekan CS langsung buatkan TT*\n\nMohon diisi :\n\nNama Pelanggan : *{nama_pelanggan}*\nID pelanggan : *{id_pelanggan}*\nNomor pelanggan yang terdaftar dan aktif saat dihubungi : *{no_hp_pelanggan}*\nKeluhan Pelanggan / Permintaan pelanggan :  *{deskripsi}*\nDibantu reset : *{deskripsi2}*\n\n*Note : Melampirkan foto perangkat jika masih terkendala setelah restart*.'
+      };
+      function getCustomReports() { try { return JSON.parse(localStorage.getItem(reportTemplatesKey) || '[]'); } catch (e) { return []; } }
+      function renderReportTemplates() { const current = reportTemplate.value; const customs = getCustomReports(); reportTemplate.innerHTML = '<option value="retention">Pengajuan Retention</option><option value="mt">Report MT</option>' + customs.map((r) => '<option value="custom:' + r.id + '">' + r.name.replace(/</g, '&lt;') + '</option>').join(''); reportTemplate.value = current && [...reportTemplate.options].some((o) => o.value === current) ? current : 'retention'; }
+      function addDescriptionRow(value = '', label = '', required = false) { if (reportDescriptions.length >= 3) return showToast('Maksimal 3 deskripsi.'); const index = reportDescriptions.length; const row = document.createElement('div'); row.className = 'description-row'; row.innerHTML = '<input type="text" class="description-label" placeholder="Nama deskripsi ' + (index + 1) + '" value="' + label.replace(/"/g, '&quot;') + '"><textarea class="description-value" ' + (required ? 'required' : '') + ' placeholder="Isi deskripsi ' + (index + 1) + '">' + value.replace(/</g, '&lt;') + '</textarea>'; descriptionList.appendChild(row); reportDescriptions.push(row); row.querySelector('.description-value').addEventListener('input', renderReport); row.querySelector('.description-label').addEventListener('input', renderReport); }
+      function requiredDescriptionCount() { const template = currentReportTemplate(); const count = Math.max((template.match(/\{deskripsi(?:2|3)?\}/g) || []).reduce((max, token) => Math.max(max, token === '{deskripsi3}' ? 3 : token === '{deskripsi2}' ? 2 : 1), 0), 1); return Math.min(count, 3); }
+      function syncDescriptionFields() { const needed = requiredDescriptionCount(); const previous = reportDescriptions.map((row) => ({ value: row.querySelector('.description-value').value, label: row.querySelector('.description-label').value })); descriptionList.innerHTML = ''; reportDescriptions.length = 0; for (let i = 0; i < needed; i++) addDescriptionRow(previous[i]?.value || '', previous[i]?.label || (i === 0 ? 'Deskripsi / Case' : i === 1 ? 'Dibantu reset' : 'Deskripsi ' + (i + 1)), true); $('add-description-button').style.display = needed >= 3 ? 'none' : 'none'; }
+      function getDescriptions() { return reportDescriptions.map((row) => row.querySelector('.description-value').value.trim()); }
+      function currentReportTemplate() { const selected = reportTemplate.value; if (builtinReports[selected]) return builtinReports[selected]; const custom = getCustomReports().find((r) => 'custom:' + r.id === selected); return custom ? custom.template : ''; }
+      function renderReport() { const labels = reportDescriptions.map((row, index) => row.querySelector('.description-label').value.trim() || 'Deskripsi ' + (index + 1)); const values = { id_pelanggan: reportId.value.trim(), nama_pelanggan: reportName.value.trim(), no_hp_pelanggan: reportPhone.value.trim(), deskripsi: getDescriptions()[0] || '', deskripsi2: getDescriptions()[1] || '', deskripsi3: getDescriptions()[2] || '', deskripsi_label: labels[0] || 'Deskripsi 1', deskripsi2_label: labels[1] || 'Deskripsi 2', deskripsi3_label: labels[2] || 'Deskripsi 3' }; let result = currentReportTemplate().replace(/\{(id_pelanggan|nama_pelanggan|no_hp_pelanggan|deskripsi2|deskripsi3|deskripsi|deskripsi_label|deskripsi2_label|deskripsi3_label)\}/g, (_, key) => values[key] || '{' + key + '}'); reportOutput.textContent = result; }
+      function activateReportPage(isReport) { paymentTab.classList.toggle('is-active', !isReport); reportTab.classList.toggle('is-active', isReport); paymentForm.style.display = isReport ? 'none' : ''; reportView.classList.toggle('is-active', isReport); if (isReport) { syncDescriptionFields(); renderReport(); } }
+      paymentTab.addEventListener('click', () => activateReportPage(false)); reportTab.addEventListener('click', () => activateReportPage(true));
+      reportTemplate.addEventListener('change', () => { syncDescriptionFields(); renderReport(); }); [reportId, reportName, reportPhone].forEach((el) => el.addEventListener('input', renderReport));
+      $('add-description-button').addEventListener('click', () => addDescriptionRow('', '', false));
+      $('copy-report-button').addEventListener('click', async () => { if (!reportId.value.trim() || !reportName.value.trim() || !reportPhone.value.trim() || !getDescriptions()[0]) { showToast('ID, nama, no. HP, dan deskripsi pertama wajib diisi.'); return; } try { await navigator.clipboard.writeText(reportOutput.textContent); showToast('Report berhasil disalin.'); } catch (e) { const range = document.createRange(); range.selectNodeContents(reportOutput); const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range); showToast('Report sudah dipilih. Silakan pilih Salin.'); } });
+      $('save-report-template').addEventListener('click', () => { const name = $('custom-report-name').value.trim(); const template = $('custom-report-template').value.trim(); if (!name || !template) return showToast('Isi nama dan format report terlebih dahulu.'); const customs = getCustomReports(); customs.push({ id: Date.now().toString(36), name, template }); localStorage.setItem(reportTemplatesKey, JSON.stringify(customs)); renderReportTemplates(); reportTemplate.value = 'custom:' + customs[customs.length - 1].id; syncDescriptionFields(); renderReport(); showToast('Format report custom tersimpan.'); });
+      renderReportTemplates(); syncDescriptionFields(); renderReport();
+
+    })();
+  </script>
+</body>
+</html>
