@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxygen.id - Promo Oxylite Oktober</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --orange: #FF6600;
+            --blue-dark: #0D233A;
+            --gray-bg: #F8F9FA;
+            --text-dark: #222222;
+            --text-muted: #666666;
+            --green-wa: #25D366;
+        }
+
+        body {
+            background-color: var(--gray-bg);
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #EAEAEA;
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 38px;
+            width: auto;
+            display: block;
+        }
+
+        /* WA Top Right Button */
+        .wa-top-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #E8F9EE;
+            color: #0E853E;
+            padding: 8px 16px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .wa-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            text-align: center;
+            padding: 35px 0 20px 0;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--blue-dark);
+        }
+
+        .hero p {
+            color: var(--orange);
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* --- PACKAGES --- */
+        .packages {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 22px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #EAEAEA;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .card.promo {
+            border: 2px solid var(--orange);
+            position: relative;
+            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.1);
+        }
+
+        .badge-September {
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--orange);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .card-info .package-name {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .card-info .speed {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--blue-dark);
+        }
+
+        .card-price {
+            text-align: right;
+        }
+
+        .card-price .price-val {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--blue-dark);
+        }
+
+        .card.promo .card-price .price-val {
+            font-size: 36px;
+            color: var(--orange);
+        }
+
+        .card-price .unit {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* --- BENEFITS --- */
+        .benefits-wrapper {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 28px;
+            border: 1px solid #EAEAEA;
+            margin-bottom: 35px;
+        }
+
+        .benefits-wrapper h3 {
+            font-size: 18px;
+            color: var(--blue-dark);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .benefit-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            list-style: none;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .benefit-icon {
+            width: 18px;
+            height: 18px;
+            fill: var(--orange);
+            flex-shrink: 0;
+        }
+
+        /* --- BOTTOM CTA --- */
+        .bottom-cta {
+            text-align: center;
+            padding: 10px 0 40px 0;
+        }
+
+        .bottom-cta p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .wa-bottom-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--green-wa);
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 800;
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.25);
+        }
+
+        .wa-bottom-btn .wa-icon {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        footer {
+            border-top: 1px solid #EAEAEA;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            background: #ffffff;
+        }
+
+
+        .region-group { display: flex; flex-direction: column; gap: 16px; }
+        .region-group[hidden] { display: none !important; }
+        .area-switch {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin: 0 0 12px;
+        }
+        .area-button {
+            padding: 6px 14px;
+            border: 1px solid #EAEAEA;
+            border-radius: 30px;
+            background: #ffffff;
+            color: var(--blue-dark);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .area-button[aria-pressed="true"] {
+            border-color: var(--orange);
+            background: var(--orange);
+            color: #ffffff;
+        }
+        .area-help {
+            margin: -6px 0 14px;
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 11px;
+        }
+        .region-heading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 9px;
+            color: var(--blue-dark);
+            font-size: 18px;
+            font-weight: 800;
+            margin: 10px 0 2px;
+        }
+        .card.featured-price {
+            border: 2px solid var(--orange);
+            box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.10), 0 5px 16px rgba(255, 102, 0, 0.16);
+        }
+        .card.featured-price .price-val {
+            color: var(--orange);
+            font-size: 32px;
+        }
+        .tax-note { margin-top: 3px; font-size: 11px; color: var(--text-muted); }
+        body { padding-bottom: 60px; }
+        .adsense-sticky {
+            position: fixed;
+            z-index: 99999;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 0 12px env(safe-area-inset-bottom, 0px);
+            border-top: 1px solid #EAEAEA;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 -4px 16px rgba(13, 35, 58, 0.12);
+        }
+        .adsense-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: min(100%, 320px);
+            height: 50px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 26px; }
+            .card { padding: 18px; }
+            .card-info .speed { font-size: 20px; }
+            .card-price .price-val { font-size: 22px; }
+            .card.promo .card-price .price-val { font-size: 28px; }
+            .card.featured-price .price-val { font-size: 25px; }
+            body { padding-bottom: 60px; }
+            .benefit-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-content">
+            <a href="#">
+                <img src="https://www.oxygen.id/public/assets/logo_oxygen.png" alt="Oxygen.id Logo" class="logo-img">
+            </a>
+            
+            <a href="https://wa.me/6285147379865?text=Halo%20Oxygen.id,%20saya%20tertarik%20dengan%20promo%20Oxylite%20Oktober" class="wa-top-btn" target="_blank">
+                <svg class="wa-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                0851-4737-9865
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <h1>Internet Rumah, Tanpa Batas</h1>
+            <p>Harga Promo Oktober • Paket Oxylite</p>
+        </section>
+
+        <div class="area-switch" role="group" aria-label="Pilih area harga">
+            <button class="area-button" type="button" data-select-region="jawa" aria-pressed="true" aria-controls="area-jawa">Jawa</button>
+            <button class="area-button" type="button" data-select-region="non-jawa" aria-pressed="false" aria-controls="area-non-jawa">Non-Jawa</button>
+        </div>
+        <p class="area-help" id="area-help" aria-live="polite">Sedang menyesuaikan harga dengan perkiraan lokasi Anda…</p>
+
+        <!-- DAFTAR PAKET HARGA -->
+        <section class="packages" aria-label="Daftar harga promo Oxylite Oktober">
+
+            <!-- TARIF AREA JAWA -->
+            <section class="region-group is-selected" data-region="jawa" id="area-jawa" aria-labelledby="heading-jawa">
+                <h2 class="region-heading" id="heading-jawa">Area Jawa</h2>
+                <div class="card featured-price">
+                    <div class="card-info">
+                        <div class="package-name">Oxylite</div>
+                        <div class="speed">up to 10 Mbps</div>
+                    </div>
+                    <div class="card-price">
+                        <div class="price-val">Rp 116.550</div>
+                        <div class="unit">/bulan • termasuk PPN</div>
+                        <div class="tax-note">Rp 105.000 sebelum PPN</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <div class="package-name">Oxylite</div>
+                        <div class="speed">up to 20 Mbps</div>
+                    </div>
+                    <div class="card-price">
+                        <div class="price-val">Rp 127.650</div>
+                        <div class="unit">/bulan • termasuk PPN</div>
+                        <div class="tax-note">Rp 115.000 sebelum PPN</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <div class="package-name">Oxylite</div>
+                        <div class="speed">up to 30 Mbps</div>
+                    </div>
+                    <div class="card-price">
+                        <div class="price-val">Rp 138.750</div>
+                        <div class="unit">/bulan • termasuk PPN</div>
+                        <div class="tax-note">Rp 125.000 sebelum PPN</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <div class="package-name">Oxylite</div>
+                        <div class="speed">up to 50 Mbps</div>
+                    </div>
+                    <div class="card-price">
+                        <div class="price-val">Rp 166.500</div>
+                        <div class="unit">/bulan • termasuk PPN</div>
+                        <div class="tax-note">Rp 150.000 sebelum PPN</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TARIF AREA NON-JAWA -->
+            <section class="region-group" data-region="non-jawa" id="area-non-jawa" aria-labelledby="heading-non-jawa" hidden>
+                <h2 class="region-heading" id="heading-non-jawa">Area Non-Jawa</h2>
+                <div class="card featured-price">
+                    <div class="card-info">
+                        <div class="package-name">Oxylite</div>
+                        <div class="speed">up to 10 Mbps</div>
+                    </div>
+                    <div class="card-price">
+                        <div class="price-val">Rp 127.650</div>
+                        <div class="unit">/bulan • termasuk PPN</div>
+                        <div class="tax-note">Rp 115.000 sebelum PPN</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <div class="package-name">Oxylite</div>
+                        <div class="speed">up to 20 Mbps</div>
+                    </div>
+                    <div class="card-price">
+                        <div class="price-val">Rp 138.750</div>
+                        <div class="unit">/bulan • termasuk PPN</div>
+                        <div class="tax-note">Rp 125.000 sebelum PPN</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <div class="package-name">Oxylite</div>
+                        <div class="speed">up to 30 Mbps</div>
+                    </div>
+                    <div class="card-price">
+                        <div class="price-val">Rp 149.850</div>
+                        <div class="unit">/bulan • termasuk PPN</div>
+                        <div class="tax-note">Rp 135.000 sebelum PPN</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <div class="package-name">Oxylite</div>
+                        <div class="speed">up to 50 Mbps</div>
+                    </div>
+                    <div class="card-price">
+                        <div class="price-val">Rp 166.500</div>
+                        <div class="unit">/bulan • termasuk PPN</div>
+                        <div class="tax-note">Rp 150.000 sebelum PPN</div>
+                    </div>
+                </div>
+            </section>
+
+        </section>
+
+        <!-- KEUNGGULAN -->
+        <section class="benefits-wrapper">
+            <h3>Keunggulan Layanan</h3>
+            <ul class="benefit-list">
+                <li class="benefit-item">
+                    <svg class="benefit-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    Gratis Biaya Instalasi
+                </li>
+                <li class="benefit-item">
+                    <svg class="benefit-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    Unlimited Kuota / Tanpa FUP
+                </li>
+                <li class="benefit-item">
+                    <svg class="benefit-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    Harga Flat (Tidak Akan Naik)
+                </li>
+                <li class="benefit-item">
+                    <svg class="benefit-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    Harga Sudah Termasuk PPN 11%
+                </li>
+                <li class="benefit-item">
+                    <svg class="benefit-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    Tanpa Denda Keterlambatan
+                </li>
+                <li class="benefit-item">
+                    <svg class="benefit-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    Customer Service 24 Jam
+                </li>
+            </ul>
+        </section>
+
+        <!-- WA PALING BAWAH -->
+        <section class="bottom-cta">
+            <p>Info Lebih Lanjut & Pendaftaran</p>
+            <a href="https://wa.me/6285147379865?text=Halo%20Oxygen.id,%20saya%20tertarik%20dengan%20promo%20Oxylite%20Oktober" class="wa-bottom-btn" target="_blank">
+                <svg class="wa-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                0851-4737-9865
+            </a>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p><strong>Oxygen.id</strong> • Net for Life • #BebasTanpaBatas</p>
+        </div>
+        <div class="adsense-sticky" aria-label="Iklan">
+            <div class="adsense-banner">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5458000797593595" crossorigin="anonymous"></script>
+                <!-- Iklan 1 -->
+                <ins class="adsbygoogle"
+                     style="display:block;width:100%;max-width:320px;height:50px"
+                     data-ad-client="ca-pub-5458000797593595"
+                     data-ad-slot="9538928685"
+                     data-ad-format="horizontal"
+                     data-full-width-responsive="false"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        (() => {
+            const javaRegions = new Set([
+                'banten', 'jakarta', 'jakarta raya', 'dki jakarta', 'daerah khusus jakarta',
+                'west java', 'jawa barat', 'central java', 'jawa tengah',
+                'special region of yogyakarta', 'yogyakarta', 'di yogyakarta', 'daerah istimewa yogyakarta',
+                'east java', 'jawa timur'
+            ]);
+            const groups = [...document.querySelectorAll('.region-group')];
+            const buttons = [...document.querySelectorAll('[data-select-region]')];
+            const help = document.getElementById('area-help');
+            let manuallySelected = false;
+
+            const normalize = value => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+            const showRegion = (region, message) => {
+                groups.forEach(group => {
+                    const active = group.dataset.region === region;
+                    group.hidden = !active;
+                    group.classList.toggle('is-selected', active);
+                });
+                buttons.forEach(button => {
+                    button.setAttribute('aria-pressed', String(button.dataset.selectRegion === region));
+                });
+                if (message) help.textContent = message;
+            };
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    manuallySelected = true;
+                    const region = button.dataset.selectRegion;
+                    const label = region === 'jawa' ? 'Jawa' : 'Non-Jawa';
+                    showRegion(region, `Menampilkan harga area ${label}. Anda bisa mengganti area melalui tombol di atas.`);
+                });
+            });
+
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 5000);
+            fetch('https://ipapi.co/json/', {
+                headers: { 'Accept': 'application/json' },
+                cache: 'no-store',
+                signal: controller.signal
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Lokasi tidak tersedia');
+                    return response.json();
+                })
+                .then(data => {
+                    if (manuallySelected) return;
+                    const country = normalize(data.country_code || data.country);
+                    if (country !== 'id' && country !== 'indonesia') throw new Error('Negara tidak terdeteksi');
+                    const region = normalize(data.region || data.region_name || data.region_code);
+                    const regionCode = normalize(data.region_code);
+                    const isJava = ['id-jk', 'id-bt', 'id-jb', 'id-jt', 'id-yo', 'id-ji'].includes(regionCode)
+                        || javaRegions.has(region);
+                    const area = isJava ? 'jawa' : 'non-jawa';
+                    const label = isJava ? 'Jawa' : 'Non-Jawa';
+                    showRegion(area, `Harga area ${label} ditampilkan otomatis. Jika area kurang tepat, pilih tombol Jawa atau Non-Jawa.`);
+                })
+                .catch(() => {
+                    if (!manuallySelected) {
+                        help.textContent = 'Lokasi belum terdeteksi. Harga Jawa ditampilkan sementara; pilih Jawa atau Non-Jawa sesuai lokasi Anda.';
+                    }
+                })
+                .finally(() => clearTimeout(timeout));
+        })();
+    </script>
+
+</body>
+</html>
