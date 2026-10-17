@@ -11,34 +11,6 @@
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "yyu9csblhm");
     </script>
-    <script>
-        (() => {
-            const root = document.documentElement;
-            root.classList.add('wa-redirect-pending');
-            let fallbackTimer;
-
-            const showWebsite = () => {
-                root.classList.remove('wa-redirect-pending');
-                clearTimeout(fallbackTimer);
-            };
-
-            document.addEventListener('click', event => {
-                if (event.target.closest('.wa-redirect-link')) {
-                    // Keep the link's native navigation; the real user tap is
-                    // what allows Chrome Android to hand off to WhatsApp.
-                    showWebsite();
-                    return;
-                }
-                if (event.target.closest('[data-show-website]')) {
-                    showWebsite();
-                }
-            });
-
-            // Browsers commonly block app launches without a user gesture.
-            // Leave time for a deliberate tap, then reveal the normal page.
-            fallbackTimer = setTimeout(showWebsite, 4500);
-        })();
-    </script>
     <style>
         * {
             margin: 0;
@@ -61,63 +33,6 @@
             color: var(--text-dark);
             line-height: 1.5;
         }
-        .wa-redirect-overlay {
-            display: none;
-            position: fixed;
-            z-index: 100000;
-            inset: 0;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            background: var(--gray-bg);
-            text-align: center;
-        }
-        html.wa-redirect-pending .wa-redirect-overlay { display: flex; }
-        .wa-redirect-card {
-            max-width: 340px;
-            padding: 22px 26px;
-            border: 1px solid #EAEAEA;
-            border-radius: 16px;
-            background: #ffffff;
-            box-shadow: 0 8px 24px rgba(13, 35, 58, .10);
-        }
-        .wa-redirect-spinner {
-            width: 24px;
-            height: 24px;
-            margin: 0 auto 12px;
-            border: 3px solid #d9f2e3;
-            border-top-color: var(--green-wa);
-            border-radius: 50%;
-            animation: wa-spin .8s linear infinite;
-        }
-        .wa-redirect-card strong { display: block; color: var(--blue-dark); font-size: 15px; }
-        .wa-redirect-card p { margin: 5px 0 0; color: var(--text-muted); font-size: 12px; }
-        .wa-redirect-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 14px;
-            padding: 10px 18px;
-            border-radius: 30px;
-            background: var(--green-wa);
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 800;
-            text-decoration: none;
-        }
-        .wa-redirect-continue {
-            display: block;
-            margin: 10px auto 0;
-            padding: 4px 8px;
-            border: 0;
-            background: transparent;
-            color: var(--text-muted);
-            font: inherit;
-            font-size: 12px;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        @keyframes wa-spin { to { transform: rotate(360deg); } }
 
         .container {
             max-width: 800px;
@@ -202,36 +117,11 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
 
-        .card.promo {
-            border: 2px solid var(--orange);
-            position: relative;
-            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.1);
-        }
-
-        .badge-September {
-            position: absolute;
-            top: -12px;
-            left: 24px;
-            background: var(--orange);
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 3px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
-        }
-
         .card-info .package-name {
             font-size: 12px;
             color: var(--text-muted);
             text-transform: uppercase;
             font-weight: 700;
-        }
-
-        .card-info .speed {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--blue-dark);
         }
 
         .card-price {
@@ -244,14 +134,52 @@
             color: var(--blue-dark);
         }
 
-        .card.promo .card-price .price-val {
-            font-size: 36px;
-            color: var(--orange);
-        }
-
         .card-price .unit {
             font-size: 12px;
             color: var(--text-muted);
+        }
+
+        .whatsapp-price-card {
+            flex-direction: column;
+            justify-content: center;
+            gap: 7px;
+            padding: 26px 18px;
+            text-align: center;
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+        .whatsapp-price-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(255, 102, 0, 0.17);
+        }
+        .whatsapp-price-card:focus-visible {
+            outline: 3px solid rgba(255, 102, 0, 0.35);
+            outline-offset: 3px;
+        }
+        .starting-price-label {
+            color: var(--blue-dark);
+            font-size: 14px;
+            font-weight: 800;
+        }
+        .whatsapp-price-card .card-price { text-align: center; }
+        .whatsapp-price-card .card-price .price-val {
+            color: var(--orange);
+            font-size: clamp(36px, 9vw, 48px);
+            line-height: 1.1;
+        }
+        .starting-price-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5px;
+            padding: 9px 18px;
+            border-radius: 30px;
+            background: var(--green-wa);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
         }
 
         /* --- BENEFITS --- */
@@ -373,119 +301,16 @@
         }
         .card.featured-price .price-val {
             color: var(--orange);
-            font-size: 32px;
+            font-size: clamp(36px, 9vw, 48px);
+            line-height: 1.1;
         }
-        .tax-note { margin-top: 3px; font-size: 11px; color: var(--text-muted); }
-        body { padding-bottom: 60px; }
-        .adsense-sticky {
-            position: fixed;
-            z-index: 99999;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 0 12px env(safe-area-inset-bottom, 0px);
-            border-top: 1px solid #EAEAEA;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 -4px 16px rgba(13, 35, 58, 0.12);
-        }
-        .adsense-banner {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: min(100%, 320px);
-            height: 50px;
-            margin: 0 auto;
-        }
-
-        .traffic-widget {
-            max-width: 520px;
-            margin: 0 auto 18px;
-            padding: 12px 16px;
-            border: 1px solid #EAEAEA;
-            border-radius: 12px;
-            background: #ffffff;
-            box-shadow: 0 3px 12px rgba(13, 35, 58, 0.04);
-        }
-        .traffic-heading {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        .traffic-title {
-            margin: 0;
-            color: var(--blue-dark);
-            font-size: 14px;
-        }
-        .traffic-date-control {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-muted);
-            font-size: 11px;
-        }
-        .traffic-date-control select {
-            max-width: 145px;
-            padding: 5px 7px;
-            border: 1px solid #EAEAEA;
-            border-radius: 7px;
-            background: #ffffff;
-            color: var(--text-main);
-            font: inherit;
-        }
-        .traffic-metrics {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-            margin-top: 9px;
-        }
-        .traffic-metric {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 8px;
-            padding: 8px 10px;
-            border-radius: 8px;
-            background: #F7F9FC;
-            color: var(--text-muted);
-            font-size: 11px;
-        }
-        .traffic-metric strong {
-            color: var(--orange);
-            font-size: 19px;
-            line-height: 1;
-        }
-        .traffic-note {
-            margin: 7px 0 0;
-            color: var(--text-muted);
-            font-size: 10px;
-            line-height: 1.4;
-        }
-
         @media (max-width: 600px) {
             .hero h1 { font-size: 26px; }
-            .card { padding: 18px; }
-            .card-info .speed { font-size: 20px; }
-            .card-price .price-val { font-size: 22px; }
-            .card.promo .card-price .price-val { font-size: 28px; }
-            .card.featured-price .price-val { font-size: 25px; }
-            body { padding-bottom: 60px; }
             .benefit-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-
-    <div class="wa-redirect-overlay" role="dialog" aria-modal="true" aria-labelledby="wa-redirect-title" aria-describedby="wa-redirect-description">
-        <div class="wa-redirect-card">
-            <div class="wa-redirect-spinner" aria-hidden="true"></div>
-            <strong id="wa-redirect-title">Ingin langsung chat WhatsApp?</strong>
-            <p id="wa-redirect-description">Chrome Android perlu ketukan untuk membuka aplikasi. Jika tidak dipilih, halaman harga akan terbuka otomatis.</p>
-            <a class="wa-redirect-link" href="https://wa.me/6285147379865?text=Halo%20Oxygen.id,%20saya%20tertarik%20dengan%20promo%20Oxylite%20Oktober" target="_blank" rel="noopener">Buka WhatsApp</a>
-            <button class="wa-redirect-continue" type="button" data-show-website>Lihat harga sekarang</button>
-        </div>
-    </div>
 
     <!-- HEADER -->
     <header>
@@ -494,7 +319,7 @@
                 <img src="https://www.oxygen.id/public/assets/logo_oxygen.png" alt="Oxygen.id Logo" class="logo-img">
             </a>
             
-            <a href="https://wa.me/6285147379865?text=Halo%20Oxygen.id,%20saya%20tertarik%20dengan%20promo%20Oxylite%20Oktober" class="wa-top-btn" target="_blank">
+            <a href="https://wa.me/6285147379865?text=Halo%20Oxygen.id,%20saya%20tertarik%20dengan%20promo%20Oxylite%20Oktober" class="wa-top-btn" target="_blank" rel="noopener">
                 <svg class="wa-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                 0851-4737-9865
             </a>
@@ -516,102 +341,32 @@
         </div>
 
         <!-- DAFTAR PAKET HARGA -->
-        <section class="packages" aria-label="Daftar harga promo Oxylite Oktober">
+        <section class="packages" aria-label="Harga mulai paket Oxylite Oktober">
 
             <!-- TARIF AREA JAWA -->
             <section class="region-group is-selected" data-region="jawa" id="area-jawa" aria-label="Harga area Jawa">
-                <div class="card featured-price">
-                    <div class="card-info">
-                        <div class="package-name">Oxylite</div>
-                        <div class="speed">up to 10 Mbps</div>
-                    </div>
+                <a class="card featured-price whatsapp-price-card" href="https://wa.me/6285147379865?text=Halo%20Oxygen.id%2C%20saya%20tertarik%20paket%20Internet%20Rumah%20Oxylite%20mulai%20Rp116.550%20untuk%20area%20Jawa.%20Mohon%20cek%20ketersediaan." target="_blank" rel="noopener" aria-label="Chat WhatsApp untuk harga mulai Rp116.550 area Jawa">
+                    <div class="starting-price-label">Internet Rumah Oxylite • Jawa</div>
                     <div class="card-price">
+                        <div class="unit">Mulai dari</div>
                         <div class="price-val">Rp 116.550</div>
                         <div class="unit">/bulan • termasuk PPN</div>
-                        <div class="tax-note">Rp 105.000 sebelum PPN</div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-info">
-                        <div class="package-name">Oxylite</div>
-                        <div class="speed">up to 20 Mbps</div>
-                    </div>
-                    <div class="card-price">
-                        <div class="price-val">Rp 127.650</div>
-                        <div class="unit">/bulan • termasuk PPN</div>
-                        <div class="tax-note">Rp 115.000 sebelum PPN</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-info">
-                        <div class="package-name">Oxylite</div>
-                        <div class="speed">up to 30 Mbps</div>
-                    </div>
-                    <div class="card-price">
-                        <div class="price-val">Rp 138.750</div>
-                        <div class="unit">/bulan • termasuk PPN</div>
-                        <div class="tax-note">Rp 125.000 sebelum PPN</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-info">
-                        <div class="package-name">Oxylite</div>
-                        <div class="speed">up to 50 Mbps</div>
-                    </div>
-                    <div class="card-price">
-                        <div class="price-val">Rp 166.500</div>
-                        <div class="unit">/bulan • termasuk PPN</div>
-                        <div class="tax-note">Rp 150.000 sebelum PPN</div>
-                    </div>
-                </div>
+                    <span class="starting-price-action">Ketuk untuk chat WhatsApp</span>
+                </a>
             </section>
 
             <!-- TARIF AREA NON-JAWA -->
             <section class="region-group" data-region="non-jawa" id="area-non-jawa" aria-label="Harga area Non-Jawa" hidden>
-                <div class="card featured-price">
-                    <div class="card-info">
-                        <div class="package-name">Oxylite</div>
-                        <div class="speed">up to 10 Mbps</div>
-                    </div>
+                <a class="card featured-price whatsapp-price-card" href="https://wa.me/6285147379865?text=Halo%20Oxygen.id%2C%20saya%20tertarik%20paket%20Internet%20Rumah%20Oxylite%20mulai%20Rp127.650%20untuk%20area%20Non-Jawa.%20Mohon%20cek%20ketersediaan." target="_blank" rel="noopener" aria-label="Chat WhatsApp untuk harga mulai Rp127.650 area Non-Jawa">
+                    <div class="starting-price-label">Internet Rumah Oxylite • Non-Jawa</div>
                     <div class="card-price">
+                        <div class="unit">Mulai dari</div>
                         <div class="price-val">Rp 127.650</div>
                         <div class="unit">/bulan • termasuk PPN</div>
-                        <div class="tax-note">Rp 115.000 sebelum PPN</div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-info">
-                        <div class="package-name">Oxylite</div>
-                        <div class="speed">up to 20 Mbps</div>
-                    </div>
-                    <div class="card-price">
-                        <div class="price-val">Rp 138.750</div>
-                        <div class="unit">/bulan • termasuk PPN</div>
-                        <div class="tax-note">Rp 125.000 sebelum PPN</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-info">
-                        <div class="package-name">Oxylite</div>
-                        <div class="speed">up to 30 Mbps</div>
-                    </div>
-                    <div class="card-price">
-                        <div class="price-val">Rp 149.850</div>
-                        <div class="unit">/bulan • termasuk PPN</div>
-                        <div class="tax-note">Rp 135.000 sebelum PPN</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-info">
-                        <div class="package-name">Oxylite</div>
-                        <div class="speed">up to 50 Mbps</div>
-                    </div>
-                    <div class="card-price">
-                        <div class="price-val">Rp 166.500</div>
-                        <div class="unit">/bulan • termasuk PPN</div>
-                        <div class="tax-note">Rp 150.000 sebelum PPN</div>
-                    </div>
-                </div>
+                    <span class="starting-price-action">Ketuk untuk chat WhatsApp</span>
+                </a>
             </section>
 
         </section>
@@ -650,87 +405,11 @@
         <!-- WA PALING BAWAH -->
         <section class="bottom-cta">
             <p>Info Lebih Lanjut & Pendaftaran</p>
-            <a href="https://wa.me/6285147379865?text=Halo%20Oxygen.id,%20saya%20tertarik%20dengan%20promo%20Oxylite%20Oktober" class="wa-bottom-btn" target="_blank">
+            <a href="https://wa.me/6285147379865?text=Halo%20Oxygen.id,%20saya%20tertarik%20dengan%20promo%20Oxylite%20Oktober" class="wa-bottom-btn" target="_blank" rel="noopener">
                 <svg class="wa-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                 0851-4737-9865
             </a>
         </section>
-
-        <section class="traffic-widget" aria-labelledby="traffic-title">
-            <div class="traffic-heading">
-                <h3 class="traffic-title" id="traffic-title">Statistik Kunjungan</h3>
-                <div class="traffic-date-control">
-                    <label for="traffic-date">Tanggal</label>
-                    <select id="traffic-date" disabled aria-label="Pilih tanggal statistik">
-                        <option value="">Memuat…</option>
-                    </select>
-                </div>
-            </div>
-            <div class="traffic-metrics" aria-live="polite">
-                <div class="traffic-metric"><span>Sesi kunjungan</span><strong id="traffic-sessions">—</strong></div>
-                <div class="traffic-metric"><span>Pengunjung unik</span><strong id="traffic-unique">—</strong></div>
-            </div>
-            <p class="traffic-note" id="traffic-note">Memuat statistik…</p>
-        </section>
-
-        <script>
-            (() => {
-                const dateSelect = document.getElementById('traffic-date');
-                const sessionsValue = document.getElementById('traffic-sessions');
-                const uniqueValue = document.getElementById('traffic-unique');
-                const note = document.getElementById('traffic-note');
-                const numberFormat = new Intl.NumberFormat('id-ID');
-                const dateFormat = new Intl.DateTimeFormat('id-ID', {
-                    dateStyle: 'medium',
-                    timeZone: 'Asia/Jakarta'
-                });
-                const formatCount = value => value === null || value === undefined || value === '' || !Number.isFinite(Number(value))
-                    ? '—'
-                    : numberFormat.format(Number(value));
-
-                const showError = message => {
-                    dateSelect.disabled = true;
-                    dateSelect.innerHTML = '<option value="">Belum tersedia</option>';
-                    note.textContent = message;
-                };
-
-                fetch(new URL('./traffic-stats.json', window.location.href), { cache: 'no-store' })
-                    .then(response => {
-                        if (!response.ok) throw new Error('File statistik belum tersedia.');
-                        return response.json();
-                    })
-                    .then(data => {
-                        const days = data && data.days && typeof data.days === 'object' ? data.days : {};
-                        const dates = Object.keys(days).filter(day => /^\d{4}-\d{2}-\d{2}$/.test(day)).sort().reverse();
-                        if (!dates.length) {
-                            showError('Statistik akan muncul setelah pengambilan data harian pertama berhasil.');
-                            return;
-                        }
-
-                        dateSelect.replaceChildren();
-                        dates.forEach(day => {
-                            const option = document.createElement('option');
-                            option.value = day;
-                            option.textContent = dateFormat.format(new Date(`${day}T12:00:00+07:00`));
-                            dateSelect.appendChild(option);
-                        });
-                        dateSelect.disabled = false;
-
-                        const renderDate = () => {
-                            const selectedDay = dateSelect.value;
-                            const entry = days[selectedDay] || {};
-                            sessionsValue.textContent = formatCount(entry.sessions);
-                            uniqueValue.textContent = formatCount(entry.uniqueVisitors);
-                            note.textContent = `Snapshot 24 jam hingga sekitar 00.05 WIB. Pengunjung unik dihitung per browser/perangkat.`;
-                        };
-
-                        dateSelect.value = dates[0];
-                        dateSelect.addEventListener('change', renderDate);
-                        renderDate();
-                    })
-                    .catch(() => showError('Statistik belum dapat dimuat. Coba lagi setelah data harian tersedia.'));
-            })();
-        </script>
 
     </main>
 
@@ -738,21 +417,6 @@
     <footer>
         <div class="container">
             <p><strong>Oxygen.id</strong> • Net for Life • #BebasTanpaBatas</p>
-        </div>
-        <div class="adsense-sticky" aria-label="Iklan">
-            <div class="adsense-banner">
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5458000797593595" crossorigin="anonymous"></script>
-                <!-- Iklan 1 -->
-                <ins class="adsbygoogle"
-                     style="display:block;width:100%;max-width:320px;height:50px"
-                     data-ad-client="ca-pub-5458000797593595"
-                     data-ad-slot="9538928685"
-                     data-ad-format="horizontal"
-                     data-full-width-responsive="false"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
         </div>
     </footer>
 
